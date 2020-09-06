@@ -12,8 +12,6 @@ const server = http.createServer(app);
 const io = socket(server);
 export const clients: any = {}; // TODO: move to redis
 
-app.use(cors());
-
 io.on(IdSocketKey.connection, (client: any) => {
     onSignIn(client, clients);
 
@@ -28,6 +26,8 @@ io.on(IdSocketKey.connection, (client: any) => {
     onUserDisconnect(client, clients);
 });
 
-app.listen(PORT,()=>{
-    console.log('Listening on port: ' + PORT)
-});
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+
+server.listen(PORT, () =>
+  console.log(`Example app listening on port ${PORT}!`)
+);
