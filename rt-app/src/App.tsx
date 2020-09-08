@@ -7,24 +7,22 @@ import { IdSocketKey } from './util/IdSocketKey';
 export const $conn = new UtilSocket();
 
 const App: React.FC<any> = () => {
+	const client: any = {};
+	const getVideoElement = (id: string, stream: any): HTMLVideoElement => {
+		const video = document.createElement('video');
+		video.id = id;
+		video.srcObject = stream;
+		
+		video.setAttribute('class', 'video_comp');
+		return video;
+	}
 
 	React.useEffect(() => {
-		const client: any = {};
-		const getVideoElement = (id: string, stream: any): HTMLVideoElement => {
-			const video = document.createElement('video');
-			video.id = id;
-			video.srcObject = stream;
-			
-			video.setAttribute('class', 'video_comp');
-			return video;
-		}
-
 		navigator.mediaDevices.getUserMedia({video: true, audio: false})
 		.then((stream: MediaStream) => {
 			const uid =  window.prompt('Enter Login ID');
 			const name = window.prompt('Enter name');
 			$conn.socket.emit(IdSocketKey.ClientCanIjoin, {id: uid, name });
-
 			//  Initialize user's video
 			const myVid = getVideoElement('my-video', stream);
 
@@ -46,7 +44,6 @@ const App: React.FC<any> = () => {
 				});
 		
 				peer.on('close', function () {
-					console.log('Peer closed app', peer);
 					document.getElementById("peerVideo")!.remove();
 					peer.destroy();
 				})
@@ -63,7 +60,6 @@ const App: React.FC<any> = () => {
 				client.gotAnswer = false; // After sending offer we will wait for answer, so initialize it to false
 				const peer = InitPeer(true);
 
-				console.log('need to create peer')
 		
 				peer.on('signal', function(data) { // This will be called from "SignalAnswer()"
 					if(!client.gotAnswer) {
@@ -78,7 +74,6 @@ const App: React.FC<any> = () => {
 			// this is when we got an offer from another client, and we want to give him an answer
 			$conn.socket.on('BackOffer', (offer: any) => { 
 				// so it will not be of type init = true
-		
 				const peer = InitPeer(false);
 				peer.on('signal', (data) => { // this needs to be called 
 					// TODO: This data is an Object, so remember to call JSON.stringify(data) to serialize it first
@@ -98,17 +93,14 @@ const App: React.FC<any> = () => {
 			// When Server rejects user's login due to the limit of allowed peers in a active session
 			$conn.socket.on(IdSocketKey.SessionFull, () => {
 				// setSessionAvailable(false) 
-				console.log('Session full')
 			}); 
 
 		})
 		.catch((error) => {
-			console.log('DENIED device', error)
 		}) 
 	}, [])
 
 
-	console.log('peer rendered')
 
 	return (
 		<div>

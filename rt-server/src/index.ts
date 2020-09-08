@@ -16,10 +16,12 @@ io.on(IdSocketKey.connection, (client: any) => {
     onSignIn(client, clients);
 
     client.on('Offer', (offer: any) => {
+		console.log('Offer from ', client['myId'])
 		client.broadcast.emit("BackOffer", offer)
 	});
 
 	client.on('Answer', (answer: any) => {
+		console.log('Answer from ', client['myId'])
 		client.broadcast.emit("BackAnswer", answer)
 	});
 

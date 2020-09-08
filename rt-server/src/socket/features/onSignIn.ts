@@ -4,7 +4,8 @@ export const onSignIn = (client: any, clients: any) => {
     client.on(IdSocketKey.ClientCanIjoin, (userInfo: {id: number, name: string}) => {
         const userCount = Object.keys(clients).length;
 
-        if(userCount < 3 && !clients[userInfo.id]) {
+        if(userCount < 2 && !clients[userInfo.id]) {
+            console.log('emitting create peer', userInfo.id);
             client.emit(IdSocketKey.CreatePeer);
 
             client['myId'] = userInfo;
