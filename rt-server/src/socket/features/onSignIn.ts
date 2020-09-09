@@ -38,7 +38,7 @@ export const onSignIn = (client: any, clients: any) => {
 
         // if(userCount < 2 && !clients[userInfo.id]) {
         //     console.log('emitting create peer', userInfo.id);
-        //     client.emit(IdSocketKey.CreatePeer);
+            client.emit(IdSocketKey.CreatePeer);
 
         //     client['myId'] = userInfo;
         //     clients[userInfo.id] = [client] // should containe userInfo
