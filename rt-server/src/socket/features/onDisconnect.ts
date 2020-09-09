@@ -1,6 +1,6 @@
 import { IdSocketKey } from "../IdSocketKey"
 
-export const onUserDisconnect = (client: any, clients: any) => {
+export const onUserDisconnect = (client: any, clients: any, rooms: any) => {
     client.on(IdSocketKey.disconnect, () => {
         if(!client['myId']) {
             return;

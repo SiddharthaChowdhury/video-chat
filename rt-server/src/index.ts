@@ -64,7 +64,7 @@ io.on(IdSocketKey.connection, (client: any) => {
 
 	/* ****************** SIGNALING END ********************** */
 
-    onUserDisconnect(client, clients);
+    onUserDisconnect(client, clients, rooms);
 });
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));

@@ -1,5 +1,6 @@
 import React from "react";
 import { UtilSocket } from '../util/utilSocket';
+import "./room.scss";
 
 export const $io = new UtilSocket();
 
@@ -26,7 +27,7 @@ export const Room: React.FC<any> = (props) => {
 
             // Push current user (User-A) to the chat room he just created
 
-            $io.socket.emit('joinRoom', props.match.params.roomID); // Join current user to the current roomId from URL
+            $io.socket.emit('joinRoom', props.match.params.roomId); // Join current user to the current roomId from URL
 
             // Case for User-B
             // Lets say current user is User-B he is trying to joing the room while User-A is already in the room
@@ -178,7 +179,7 @@ export const Room: React.FC<any> = (props) => {
     }
 
     return (
-        <div>
+        <div className={'video-grid'}>
             <video autoPlay muted ref={userVideo}/>
             <video autoPlay muted ref={remoteVideo}/>
         </div>
