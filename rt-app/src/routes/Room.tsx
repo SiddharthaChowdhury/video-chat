@@ -1,8 +1,6 @@
 import React from "react";
-import { UtilSocket } from '../util/utilSocket';
 import "./room.scss";
-
-export const $io = new UtilSocket();
+import { $io } from "../App";
 
 /*
     This is rendered when someone presses "Create room" button

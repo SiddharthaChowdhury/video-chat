@@ -9,13 +9,13 @@ import { onUserDisconnect } from './socket/features/onDisconnect';
 const app = express()
 const PORT = 8000;
 const server = http.createServer(app);
-const io = socket(server);
+const io: socket.Server = socket(server);
 
 const rooms: any = {};
 const clients: any = {}; // TODO: move to redis
 
 io.on(IdSocketKey.connection, (client: any) => {
-    onSignIn(client, clients);
+    onSignIn(client, clients, io);
 
 	/* *****************************************
 	 				SIGNALING
@@ -64,7 +64,7 @@ io.on(IdSocketKey.connection, (client: any) => {
 
 	/* ****************** SIGNALING END ********************** */
 
-    onUserDisconnect(client, clients, rooms);
+    onUserDisconnect(client, clients, io);
 });
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
